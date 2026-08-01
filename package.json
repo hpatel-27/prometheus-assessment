@@ -1,0 +1,31 @@
+{
+  "name": "prometheus-assessment",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Full-stack stock market MVP: Express API + React client over shared Zod contracts.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "workspaces": [
+    "shared",
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "predev": "npm run build -w @prometheus/shared",
+    "dev": "concurrently -k -n shared,backend,frontend -c blue,green,magenta \"npm:dev:shared\" \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "dev:shared": "npm run dev -w @prometheus/shared",
+    "dev:backend": "npm run dev -w backend",
+    "dev:frontend": "npm run dev -w frontend",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "prettier": "^3.4.2"
+  }
+}
