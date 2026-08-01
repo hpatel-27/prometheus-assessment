@@ -9,6 +9,9 @@ export default tseslint.config(
   {
     languageOptions: {
       globals: globals.node,
+      parserOptions: {
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
   },
 )

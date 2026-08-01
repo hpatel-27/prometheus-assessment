@@ -5,4 +5,11 @@ export default tseslint.config(
   { ignores: ['dist'] },
   js.configs.recommended,
   tseslint.configs.recommended,
+  {
+    languageOptions: {
+      parserOptions: {
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
 )
