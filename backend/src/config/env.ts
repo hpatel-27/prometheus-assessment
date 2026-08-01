@@ -19,6 +19,10 @@ const envSchema = z.object({
         .map((origin) => origin.trim())
         .filter((origin) => origin.length > 0),
     ),
+  // Rate-limit window in milliseconds. Default: 15 minutes.
+  RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().default(15 * 60 * 1000),
+  // Maximum requests per IP within the window. Default: 100.
+  RATE_LIMIT_MAX: z.coerce.number().int().positive().default(100),
 })
 
 export type Env = z.infer<typeof envSchema>

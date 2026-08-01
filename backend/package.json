@@ -14,11 +14,17 @@
   },
   "dependencies": {
     "@prometheus/shared": "*",
+    "cors": "2.8.6",
     "dotenv": "^16.4.7",
+    "express": "5.2.1",
+    "express-rate-limit": "8.6.1",
+    "helmet": "8.3.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/cors": "2.8.19",
+    "@types/express": "5.0.6",
     "@types/node": "^24.13.3",
     "eslint": "^10.8.0",
     "globals": "^17.7.0",
