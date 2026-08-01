@@ -1,0 +1,8 @@
+node_modules/
+dist/
+dist-ssr/
+*.tsbuildinfo
+package-lock.json
+
+# Authored project spec — kept verbatim.
+CLAUDE.md
