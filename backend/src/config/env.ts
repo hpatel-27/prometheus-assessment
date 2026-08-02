@@ -20,9 +20,17 @@ const envSchema = z.object({
         .filter((origin) => origin.length > 0),
     ),
   // Rate-limit window in milliseconds. Default: 15 minutes.
-  RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().default(15 * 60 * 1000),
+  RATE_LIMIT_WINDOW_MS: z.coerce
+    .number()
+    .int()
+    .positive()
+    .default(15 * 60 * 1000),
   // Maximum requests per IP within the window. Default: 100.
   RATE_LIMIT_MAX: z.coerce.number().int().positive().default(100),
+  // Timeout for a single upstream Yahoo Finance request, in milliseconds.
+  // Bounds how long a client request can wait on the external provider.
+  // Default: 10 seconds.
+  YAHOO_REQUEST_TIMEOUT_MS: z.coerce.number().int().positive().default(10_000),
 })
 
 export type Env = z.infer<typeof envSchema>
