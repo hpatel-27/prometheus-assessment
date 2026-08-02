@@ -495,7 +495,6 @@ rate limiting
 security headers
 proxy configuration
 configuration validation
-graceful shutdown
 logging
 dependency hygiene
 avoiding secrets in source control

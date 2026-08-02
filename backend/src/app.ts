@@ -17,6 +17,12 @@ import stocksRouter from './routes/stocks.js'
 export function createApp(): Application {
   const app = express()
 
+  // Trust proxy controls how Express derives the client IP (used to key the
+  // rate limiter) from `X-Forwarded-For`. Disabled by default; when running
+  // behind a trusted reverse proxy set TRUST_PROXY to the exact hop count. It
+  // is never `true` (see config/env.ts) so a client cannot forge its source IP.
+  app.set('trust proxy', env.TRUST_PROXY)
+
   // Security headers. Helmet sets sensible defaults (CSP, X-Frame-Options,
   // etc.) and disables the X-Powered-By header.
   app.use(helmet())
