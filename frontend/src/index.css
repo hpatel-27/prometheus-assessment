@@ -1,13 +1,7 @@
-:root {
+@import 'tailwindcss';
+
+/* Base document defaults. Component-level styling uses Tailwind utility classes
+   directly in JSX; this file is intentionally minimal for the MVP. */
+html {
   font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
-  line-height: 1.5;
-  color-scheme: light dark;
-}
-
-body {
-  margin: 0;
-}
-
-code {
-  font-family: ui-monospace, Consolas, monospace;
 }
