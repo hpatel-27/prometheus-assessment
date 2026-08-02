@@ -7,6 +7,7 @@ import { errorHandler } from './middleware/errorHandler.js'
 import { rateLimitMiddleware } from './middleware/rateLimit.js'
 import { requestIdMiddleware } from './middleware/requestId.js'
 import healthRouter from './routes/health.js'
+import stocksRouter from './routes/stocks.js'
 
 /**
  * Constructs and configures the Express application without binding to a port.
@@ -36,6 +37,7 @@ export function createApp(): Application {
 
   // Routes
   app.use(healthRouter)
+  app.use(stocksRouter)
 
   // Centralized error handler must be the last middleware registered.
   app.use(errorHandler)
