@@ -20,6 +20,20 @@ export function errorHandler(
   const requestId = res.locals['requestId'] as string | undefined
 
   if (err instanceof HttpError) {
+    // 5xx HttpErrors may carry internal detail (upstream provider behavior,
+    // timeouts, parse failures). Log the real message for diagnosis but return
+    // a generic body so implementation details are never exposed to clients.
+    // 4xx errors are client-actionable, so their messages are safe to return.
+    if (err.statusCode >= 500) {
+      console.error('[backend] server error', {
+        requestId,
+        statusCode: err.statusCode,
+        message: err.message,
+      })
+      res.status(err.statusCode).json({ error: 'An unexpected error occurred.', requestId })
+      return
+    }
+
     res.status(err.statusCode).json({ error: err.message, requestId })
     return
   }
