@@ -1,0 +1,27 @@
+# Keep the build context small and reproducible. Dependencies and build output
+# are (re)generated inside the image, never copied from the host.
+**/node_modules
+**/dist
+**/dist-ssr
+**/*.tsbuildinfo
+
+# Local env / secrets must never be baked into an image.
+**/.env
+**/.env.*
+!**/.env.example
+
+# VCS, CI, editors, OS cruft
+.git
+.gitignore
+.github
+.vscode
+.idea
+.DS_Store
+
+# Docker / compose files are not needed inside the build context
+**/Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Logs
+*.log

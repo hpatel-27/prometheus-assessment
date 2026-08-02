@@ -1,0 +1,45 @@
+# Production-oriented Compose file for the stock market MVP.
+#
+# Copy .env.example to .env, adjust the values, then:
+#   docker compose up --build
+#
+# Topology: the browser loads the SPA from the frontend (nginx) container and
+# calls the backend directly at VITE_API_BASE_URL (cross-origin), so the backend
+# must allow the frontend's origin via CORS_ORIGINS. No reverse proxy sits in
+# front of the backend here, so TRUST_PROXY stays disabled.
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: prometheus-backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      # Must include the origin the SPA is served from (see FRONTEND_PORT).
+      CORS_ORIGINS: ${CORS_ORIGINS}
+      # Keep false unless a trusted reverse proxy sits in front of the backend.
+      TRUST_PROXY: ${TRUST_PROXY:-false}
+      RATE_LIMIT_WINDOW_MS: ${RATE_LIMIT_WINDOW_MS:-900000}
+      RATE_LIMIT_MAX: ${RATE_LIMIT_MAX:-100}
+    ports:
+      - '${BACKEND_PORT:-3000}:3000'
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        # Baked into the static bundle at build time; must match how the browser
+        # reaches the backend publicly.
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL}
+    image: prometheus-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        # Wait for the backend's HEALTHCHECK to pass before starting.
+        condition: service_healthy
+    ports:
+      - '${FRONTEND_PORT:-8080}:80'
