@@ -32,8 +32,10 @@ export function createApp(): Application {
   // Global IP-based rate limiter applied before route handlers.
   app.use(rateLimitMiddleware)
 
-  // Parse JSON request bodies.
-  app.use(express.json())
+  // Parse JSON request bodies with a small explicit cap. No current route
+  // consumes a body, so this bounds request-body memory usage and rejects
+  // oversized payloads early rather than relying on the 100kb default.
+  app.use(express.json({ limit: '10kb' }))
 
   // Routes
   app.use(healthRouter)
