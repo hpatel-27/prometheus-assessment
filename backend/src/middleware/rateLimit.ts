@@ -10,9 +10,11 @@ import { TooManyRequestsError } from '../errors/HttpError.js'
  * store with a shared implementation (e.g. Redis) to enforce limits across
  * all instances.
  *
- * Accurate IP resolution depends on the trust proxy configuration. Set
- * TRUST_PROXY to the number of real proxy hops in front of this server so
- * Express reads the client IP from X-Forwarded-For correctly.
+ * Clients are keyed on the direct socket address (Express `trust proxy` is left
+ * at its default of disabled), so `X-Forwarded-For` cannot be used to spoof a
+ * source IP and evade the limiter. If the app is later deployed behind a trusted
+ * reverse proxy, configure `trust proxy` to the real hop count so the client IP
+ * is read correctly.
  */
 export const rateLimitMiddleware = rateLimit({
   windowMs: env.RATE_LIMIT_WINDOW_MS,
